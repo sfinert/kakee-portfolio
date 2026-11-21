@@ -461,7 +461,8 @@ function createVideoProjection(video, original, origin, orientation, subject, fl
   function update(ease, active) {
     const ready = isUsable();
     uniforms.uProjMix.value += ((ready ? 1 : 0) - uniforms.uProjMix.value) * ease;
-    if (!ready || !active || Math.abs(video.currentTime - filledAt) < .045) return;
+    // Refresh on every new video frame, or a light flash shows the previous frame's fill for a moment.
+    if (!ready || !active || video.currentTime === filledAt) return;
     filledAt = video.currentTime;
     figure.refresh(video);
     uniforms.uProjMask.value = figure.mask;
