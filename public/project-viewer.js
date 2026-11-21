@@ -73,9 +73,32 @@ export function closeProjectViewport() {
   state.sourceMaterials?.forEach((material, mesh) => { mesh.material = material; });
   state.clay?.dispose();
   state.wire?.dispose();
+  state.environment?.dispose();
   disposeObject(state.content);
   state.renderer?.dispose();
   state.renderer?.domElement.remove();
+}
+
+// A small soft-box room baked into an environment map, so metallic textures have something to reflect.
+function studioEnvironment(renderer) {
+  const room = new THREE.Scene();
+  const box = new THREE.BoxGeometry(1, 1, 1);
+  const walls = new THREE.Mesh(box, new THREE.MeshBasicMaterial({ color: 0x3a3e48, side: THREE.BackSide }));
+  walls.scale.set(14, 8, 14);
+  room.add(walls);
+  for (const [x, y, z, sx, sy, sz, strength] of [
+    [0, 3.8, 0, 6, .1, 6, 3.6], [-6.8, 1, 0, .1, 4, 6, 2], [6.8, 1.5, -2, .1, 3, 4, 1.5], [0, 1, 6.8, 5, 3, .1, 1.1]
+  ]) {
+    const panel = new THREE.Mesh(box, new THREE.MeshBasicMaterial({ color: new THREE.Color(1, 1, 1).multiplyScalar(strength) }));
+    panel.position.set(x, y, z);
+    panel.scale.set(sx, sy, sz);
+    room.add(panel);
+  }
+  const generator = new THREE.PMREMGenerator(renderer);
+  const target = generator.fromScene(room, .035);
+  generator.dispose();
+  box.dispose();
+  return target;
 }
 
 async function parseAsset(bytes) {
@@ -97,6 +120,7 @@ export async function openProjectViewport({ src, poster, title }) {
   const { signal } = state.abort;
   for (const button of modeButtons) {
     button.disabled = true;
+    button.hidden = false;
     button.setAttribute('aria-pressed', String(button.dataset.viewportMode === 'clay'));
   }
   reset.disabled = true;
@@ -115,8 +139,11 @@ export async function openProjectViewport({ src, poster, title }) {
     }
     state.content = content;
     const sourceMaterials = new Map();
+    let textured = false;
     content.traverse(object => {
-      if (object.isMesh) sourceMaterials.set(object, object.material);
+      if (!object.isMesh) return;
+      sourceMaterials.set(object, object.material);
+      if ([object.material].flat().some(material => material?.map)) textured = true;
     });
     if (!sourceMaterials.size) throw new Error('No meshes in model');
     state.sourceMaterials = sourceMaterials;
@@ -145,6 +172,8 @@ export async function openProjectViewport({ src, poster, title }) {
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
     renderer.setClearColor(0x11131a);
     renderer.outputEncoding = THREE.sRGBEncoding;
+    state.environment = studioEnvironment(renderer);
+    scene.environment = state.environment.texture;
     const canvas = renderer.domElement;
     canvas.setAttribute('aria-label', '3D 뷰포트. 방향키로 돌리고, 더하기와 빼기로 확대 또는 축소합니다.');
     canvas.setAttribute('role', 'region');
@@ -175,16 +204,28 @@ export async function openProjectViewport({ src, poster, title }) {
       render();
     }
     controls.addEventListener('change', render);
-    state.observer = new ResizeObserver(() => { resize(); render(); });
+    // The dialog can still be settling when the model arrives; keep refitting until the visitor moves the view.
+    let moved = false;
+    controls.addEventListener('start', () => { moved = true; });
+    state.observer = new ResizeObserver(() => {
+      resize();
+      if (moved) render();
+      else resetView();
+    });
     state.observer.observe(stage);
     reset.addEventListener('click', resetView, { signal });
     function setMode(mode) {
-      const wire = mode === 'wire';
-      sourceMaterials.forEach((_, mesh) => { mesh.material = wire ? state.wire : state.clay; });
+      sourceMaterials.forEach((material, mesh) => {
+        mesh.material = mode === 'texture' ? material : mode === 'wire' ? state.wire : state.clay;
+      });
       for (const button of modeButtons) {
         button.setAttribute('aria-pressed', String(button.dataset.viewportMode === mode));
       }
-      status.textContent = wire ? '웹용 모델의 삼각형 메시를 표시합니다.' : '무광 재질로 모델의 형태를 보여줍니다.';
+      status.textContent = {
+        texture: 'Substance Painter에서 작업한 텍스처를 입힌 모델입니다.',
+        wire: '웹용 모델의 삼각형 메시를 표시합니다.',
+        clay: '무광 재질로 모델의 형태를 보여줍니다.'
+      }[mode];
       render();
     }
     for (const button of modeButtons) {
@@ -212,7 +253,10 @@ export async function openProjectViewport({ src, poster, title }) {
     canvas.addEventListener('webglcontextlost', showFallback, { signal });
     resize();
     resetView();
-    setMode('clay');
+    for (const button of modeButtons) {
+      if (button.dataset.viewportMode === 'texture') button.hidden = !textured;
+    }
+    setMode(textured ? 'texture' : 'clay');
     image.hidden = true;
     reset.disabled = false;
     for (const button of modeButtons) button.disabled = false;

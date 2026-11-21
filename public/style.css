@@ -206,8 +206,31 @@ button { border: 0; }
 .project-files:empty { display: none; }
 .project-files a { display: inline-block; padding: 12px 0; color: var(--accent); font-size: 13px; }
 .project-files p { margin: 0 0 14px; font-size: 12px; line-height: 1.7; color: #aaa5b9; }
-.project-dialog:has(.project-media:not(:empty)) { width: min(1000px, 94vw); max-width: 94vw; }
-.project-dialog:has(.project-viewport:not([hidden])) { width: min(1000px, 94vw); max-width: 94vw; }
+.project-dialog:has(.project-media:not(:empty)) { width: min(1240px, 95vw); max-width: 95vw; }
+.project-dialog:has(.project-viewport:not([hidden])) { width: min(1240px, 95vw); max-width: 95vw; }
+.project-dialog.is-wide { width: min(1720px, 97vw); max-width: 97vw; max-height: 94svh; }
+.project-dialog.is-wide .project-media video { max-height: 78svh; }
+
+.still-open { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.still-hint { position: absolute; right: 12px; bottom: 12px; padding: 6px 10px; border-radius: 99px; background: #0a0a0bcc; color: #f3efe8; font: 10px/1.2 var(--mono); letter-spacing: .06em; opacity: 0; transition: opacity .2s; backdrop-filter: blur(6px); }
+.still-open:is(:hover, :focus-visible) .still-hint { opacity: 1; }
+
+.image-lightbox { width: 100vw; height: 100svh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #050506f2; color: #f3efe8; }
+.image-lightbox::backdrop { background: #000c; }
+.lightbox-stage { position: absolute; inset: 0 0 56px; display: grid; place-items: center; overflow: hidden; }
+.lightbox-stage img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; }
+.image-lightbox.is-actual .lightbox-stage { display: block; overflow: auto; }
+.image-lightbox.is-actual .lightbox-stage img { max-width: none; max-height: none; cursor: zoom-out; }
+.lightbox-bar { position: absolute; inset: auto 0 0; display: flex; align-items: center; gap: 16px; height: 56px; padding: 0 clamp(14px, 3vw, 32px); font: 11px/1.3 var(--mono); letter-spacing: .05em; }
+.lightbox-label { color: #f3efe8; white-space: pre; }
+.lightbox-hint { margin-left: auto; color: #8f8a83; }
+.lightbox-close, .lightbox-step { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #f3efe84d; border-radius: 50%; background: #0a0a0bb3; color: #f3efe8; font-size: 18px; cursor: pointer; }
+.lightbox-close:hover, .lightbox-step:hover { background: #f3efe8; color: #0a0a0b; }
+.lightbox-step { position: absolute; top: calc(50% - 48px); }
+.lightbox-step[data-step="-1"] { left: clamp(10px, 2vw, 24px); }
+.lightbox-step[data-step="1"] { right: clamp(10px, 2vw, 24px); }
+.image-lightbox.is-single .lightbox-step { display: none; }
+@media (max-width: 640px) { .lightbox-hint { display: none; } }
 [hidden] { display: none !important; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 @media (max-width: 900px) {
