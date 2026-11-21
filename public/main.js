@@ -250,6 +250,99 @@ function openLightbox(list, start) {
   if (!lightbox.open) lightbox.showModal();
 }
 
+// Renders and films sit side by side in one strip: swipe, drag the scrollbar, use the arrow
+// buttons or the keyboard, or pick a thumbnail. Leaving a film pauses it.
+function buildCarousel(slides) {
+  const carousel = document.createElement('div');
+  carousel.className = 'media-carousel';
+  carousel.setAttribute('role', 'region');
+  carousel.setAttribute('aria-roledescription', '캐러셀');
+  carousel.setAttribute('aria-label', '작품 이미지와 영상');
+  carousel.tabIndex = 0;
+  const track = document.createElement('div');
+  track.className = 'media-track';
+  slides.forEach((slide, index) => {
+    slide.classList.add('media-slide');
+    slide.setAttribute('aria-label', `${index + 1} / ${slides.length}`);
+    track.append(slide);
+  });
+  const bar = document.createElement('div');
+  bar.className = 'media-bar';
+  const label = document.createElement('span');
+  label.className = 'media-label';
+  const thumbs = document.createElement('div');
+  thumbs.className = 'media-thumbs';
+  const step = direction => {
+    const prev = document.createElement('button');
+    prev.type = 'button';
+    prev.className = 'media-step';
+    prev.dataset.step = direction;
+    prev.setAttribute('aria-label', direction < 0 ? '이전 이미지' : '다음 이미지');
+    prev.textContent = direction < 0 ? '←' : '→';
+    return prev;
+  };
+  const back = step(-1);
+  const next = step(1);
+  const thumbButtons = slides.map((slide, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.setAttribute('aria-label', `${index + 1}번째 보기: ${slide.querySelector('figcaption').textContent}`);
+    const source = slide.querySelector('img')?.src || slide.querySelector('video')?.poster;
+    if (source) button.append(Object.assign(document.createElement('img'), { src: source, alt: '', loading: 'lazy' }));
+    else button.textContent = index + 1;
+    if (slide.querySelector('video')) button.classList.add('is-film');
+    button.addEventListener('click', () => go(index));
+    thumbs.append(button);
+    return button;
+  });
+  bar.append(back, label, next);
+  carousel.append(track, bar);
+  if (slides.length > 1) carousel.append(thumbs);
+  else carousel.classList.add('is-single');
+
+  let current = 0;
+  function go(index, smooth = true) {
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    const target = slides[current].offsetLeft;
+    track.scrollTo({ left: target, behavior: smooth ? 'smooth' : 'auto' });
+    // A smooth scroll can be cut short while the dialog is still animating open.
+    setTimeout(() => { if (Math.abs(track.scrollLeft - target) > 2) track.scrollLeft = target; }, 700);
+    sync();
+  }
+  function sync() {
+    label.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}  ${slides[current].querySelector('figcaption').textContent}`;
+    back.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+    thumbButtons.forEach((button, index) => button.setAttribute('aria-current', String(index === current)));
+    slides.forEach((slide, index) => {
+      const video = slide.querySelector('video');
+      if (video && index !== current && !video.paused) video.pause();
+    });
+  }
+  back.addEventListener('click', () => go(current - 1));
+  next.addEventListener('click', () => go(current + 1));
+  carousel.addEventListener('keydown', event => {
+    const direction = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+    if (!direction || event.target.closest('video')) return;
+    event.preventDefault();
+    go(current + direction);
+  });
+  let settle;
+  track.addEventListener('scroll', () => {
+    clearTimeout(settle);
+    settle = setTimeout(() => {
+      const nearest = slides.reduce((best, slide, index) =>
+        Math.abs(slide.offsetLeft - track.scrollLeft) < Math.abs(slides[best].offsetLeft - track.scrollLeft) ? index : best, 0);
+      if (nearest !== current) {
+        current = nearest;
+        sync();
+      }
+    }, 90);
+  }, { passive: true });
+  sync();
+  return carousel;
+}
+
 // The detail sheet grows out of the card that opened it, then its lines rise into place.
 function revealFrom(dialog, origin) {
   if (!origin || matchMedia('(prefers-reduced-motion: reduce)').matches || !dialog.animate) return;
@@ -312,7 +405,7 @@ export function showProject(key, origin) {
     return figure;
   });
   projectDialog.classList.toggle('is-wide', Boolean(item.wide));
-  projectMedia.replaceChildren(...stills, ...(item.videos || []).map(media => {
+  const slides = [...stills, ...(item.videos || []).map(media => {
     const figure = document.createElement('figure');
     const label = document.createElement('figcaption');
     label.textContent = media.label;
@@ -329,7 +422,8 @@ export function showProject(key, origin) {
     video.append(fallback);
     figure.append(label, video);
     return figure;
-  }));
+  })];
+  projectMedia.replaceChildren(...(slides.length ? [buildCarousel(slides)] : []));
   projectSource.hidden = !item.source;
   if (item.source) projectSource.href = item.source;
   projectViewport.hidden = !item.viewport;
