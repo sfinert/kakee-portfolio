@@ -24,7 +24,9 @@ JOBS = {
     'jonglu': dict(fbx='KSY_SM_Jonglu/scenes/jonglu_fin.fbx', project='KSY_SM_Jonglu',
                    prefix='Jonglu', skip=None, size=3.0, limit=110000, by_tile=True, texture_size=1536),
     'lantern': dict(fbx='KSY23_h32_Lantern/scenes/lantern.fbx', project='KSY23_h32_Lantern',
-                    prefix='lantern', skip=None, size=2.7, limit=95000, texture_size=1024),
+                    prefix='lantern', skip=None, size=2.7, limit=95000, texture_size=1024,
+                    # Glass bulbs, the gauge dome and the chimney are cut out by Substance opacity maps.
+                    opacity=True, image_format='WEBP'),
 }
 TEXTURE_SIZE = 2048
 
@@ -83,13 +85,17 @@ def build_material(name, maps, cache):
     if 'Emissive' in maps:
         links.new(texture('Emissive', 'sRGB').outputs['Color'], shader.inputs['Emission Color'])
         shader.inputs['Emission Strength'].default_value = 1
+    if 'Opacity' in maps:
+        links.new(texture('Opacity', 'Non-Color').outputs['Color'], shader.inputs['Alpha'])
+        for attribute, value in (('blend_method', 'BLEND'), ('surface_render_method', 'BLENDED')):
+            if hasattr(material, attribute):
+                setattr(material, attribute, value)
     return material
 
 
-def assign_tiles(obj, job, folder, materials, cache):
+def assign_tiles(obj, job, folder, materials, cache, face_materials):
     mesh = obj.data
     uv = mesh.uv_layers.active
-    names = [slot.material.name if slot.material else 'none' for slot in obj.material_slots] or ['none']
     mesh.materials.clear()
     slots = {}
     for polygon in mesh.polygons:
@@ -98,14 +104,15 @@ def assign_tiles(obj, job, folder, materials, cache):
         v = sum(uv.data[index].uv.y for index in loops) / len(loops) if uv else .5
         du, dv = math.floor(u), math.floor(v)
         tile = 1001 + du + 10 * dv
-        source = f'UV{tile - 1000}' if job.get('by_tile') else names[min(polygon.material_index, len(names) - 1)]
+        source = f'UV{tile - 1000}' if job.get('by_tile') else face_materials[polygon.index]
         key = (source, tile)
         if key not in materials:
             maps = {}
-            for channel in ('BaseColor', 'Normal', 'Roughness', 'Metallic', 'Emissive'):
+            channels = ['BaseColor', 'Normal', 'Roughness', 'Metallic', 'Emissive'] + (['Opacity'] if job.get('opacity') else [])
+            for channel in channels:
                 path = find_texture(folder, job['prefix'], source, channel, tile)
-                # Substance writes all-black emissive maps as tiny files; skip those.
-                if path and not (channel == 'Emissive' and path.stat().st_size < 60000):
+                # Substance writes flat (all-black emissive, all-white opacity) maps as tiny files; skip those.
+                if path and not (channel in ('Emissive', 'Opacity') and path.stat().st_size < 60000):
                     maps[channel] = path
             materials[key] = build_material(f'{source}_{tile}', maps, cache)
             print('MATERIAL', key, sorted(maps), flush=True)
@@ -128,14 +135,20 @@ def export(key, job, projects, output):
 
     graph = bpy.context.evaluated_depsgraph_get()
     model = []
+    face_materials = {}
     for obj in sources:
+        # Record each face's source material before baking: one Maya mesh can carry two texture
+        # sets inside the same UDIM tile, and the baked copy loses the per-face slot names.
+        names = [slot.material.name if slot.material else 'none' for slot in obj.material_slots] or ['none']
+        per_face = [names[min(p.material_index, len(names) - 1)] for p in obj.data.polygons]
         evaluated = obj.evaluated_get(graph)
         mesh = bpy.data.meshes.new_from_object(evaluated, depsgraph=graph)
+        if len(mesh.polygons) != len(per_face):
+            raise RuntimeError(f'{obj.name}: face count changed while baking')
         instance = bpy.data.objects.new(obj.name, mesh)
         bpy.context.collection.objects.link(instance)
         instance.matrix_world = evaluated.matrix_world
-        for slot, source_slot in zip(instance.material_slots, obj.material_slots):
-            slot.material = source_slot.material
+        face_materials[instance.name] = per_face
         model.append(instance)
     for obj in list(bpy.context.scene.objects):
         if obj not in model:
@@ -146,7 +159,7 @@ def export(key, job, projects, output):
     for obj in model:
         for attribute in list(obj.data.color_attributes):
             obj.data.color_attributes.remove(attribute)
-        assign_tiles(obj, job, folder, materials, cache)
+        assign_tiles(obj, job, folder, materials, cache, face_materials[obj.name])
 
     # Separate per material so mesh reduction never collapses across texture sets.
     bpy.ops.object.select_all(action='DESELECT')
@@ -183,7 +196,7 @@ def export(key, job, projects, output):
     target = output / f'{key}.glb'
     options = dict(filepath=str(target), export_format='GLB', use_selection=True, export_yup=True,
                    export_animations=False, export_materials='EXPORT', export_texcoords=True,
-                   export_normals=True, export_image_format='JPEG')
+                   export_normals=True, export_image_format=job.get('image_format', 'JPEG'))
     available = bpy.ops.export_scene.gltf.get_rna_type().properties.keys()
     for name in ('export_image_quality', 'export_jpeg_quality'):
         if name in available:
