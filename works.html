@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Kakee의 3D, 모션, 인터랙티브 작품을 모아 보는 작업 아카이브.">
+  <title>Work — Kakee</title>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="hero.css">
+  <link rel="stylesheet" href="works-ribbon.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body class="works-page">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Kakee 홈">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" stroke="currentColor" stroke-width="1.35"/>
+        <path d="M20 6.8 22.4 14.2 29.3 10.7 25.8 17.6 33.2 20 25.8 22.4 29.3 29.3 22.4 25.8 20 33.2 17.6 25.8 10.7 29.3 14.2 22.4 6.8 20 14.2 17.6 10.7 10.7 17.6 14.2Z" fill="currentColor"/>
+      </svg>
+      <span class="brand-copy"><strong>Kakee</strong><small>3D / MOTION / INTERACTIVE</small></span>
+    </a>
+    <nav class="top-nav" aria-label="주요 메뉴">
+      <a href="works.html" class="nav-work" aria-current="page">Work</a>
+      <a href="index.html#about">About</a>
+      <button class="contact-trigger" type="button" data-open-contact>Let’s talk</button>
+    </nav>
+  </header>
+  <main class="site-shell" id="top">
+    <section class="works-reel" aria-labelledby="reel-title">
+      <div class="reel-stage">
+        <h1 class="reel-heading" id="reel-title"><span class="reel-line">Selected</span> <span class="reel-line">work.</span></h1>
+        <p class="reel-caption">3D · MOTION · INTERACTIVE<span></span></p>
+        <div class="reel-world"></div>
+        <div class="reel-footer">
+          <p class="reel-status"></p>
+          <a href="#work" class="reel-all">전체 작업 <span aria-hidden="true">↓</span></a>
+        </div>
+        <span class="reel-label" aria-hidden="true" hidden></span>
+      </div>
+    </section>
+    <section class="work-section" id="work" aria-labelledby="work-title">
+      <span id="work-3d" class="work-category-target" aria-hidden="true"></span>
+      <span id="work-ai" class="work-category-target" aria-hidden="true"></span>
+      <span id="work-touchdesigner" class="work-category-target" aria-hidden="true"></span>
+      <nav class="work-categories" aria-label="작업 분야">
+        <a class="work-category-link" href="#work" aria-current="true" aria-controls="workGrid" data-filter="all" data-category-title="전체 작업">
+          <span>전체</span><span class="work-category-count" aria-hidden="true"></span>
+        </a>
+        <a class="work-category-link" href="#work-3d" aria-controls="workGrid" data-filter="3d" data-category-title="3D 작업">
+          <span>3D</span><span class="work-category-count" aria-hidden="true"></span>
+        </a>
+        <a class="work-category-link" href="#work-ai" aria-controls="workGrid" data-filter="ai" data-category-title="AI 작업">
+          <span>AI</span><span class="work-category-count" aria-hidden="true"></span>
+        </a>
+        <a class="work-category-link" href="#work-touchdesigner" aria-controls="workGrid" data-filter="touchdesigner" data-category-title="TouchDesigner 작업">
+          <span>TouchDesigner</span><span class="work-category-count" aria-hidden="true"></span>
+        </a>
+      </nav>
+      <div class="section-heading work-results-heading">
+        <h2 id="work-title">전체 작업</h2>
+        <span class="work-count" aria-live="polite"></span>
+      </div>
+
+      <div class="work-grid" id="workGrid">
+        <article class="work-card work-card--wide" data-categories="touchdesigner 3d" data-project="revenant">
+          <button class="work-card__button" type="button" aria-label="Revenant 영상 및 TouchDesigner 프로젝트 보기">
+            <span class="work-card__image"><img src="media/works/revenant-poster.jpg" alt="Revenant 오디오비주얼 영상 스틸" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">WATCH FILM <b>▷</b></span><span class="work-card__number">01</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">AUDIOVISUAL / BLENDER × TD</p><h3>REVENANT</h3></div><span class="work-card__category">01:50 · PROJECT FILE</span></div>
+        </article>
+
+        <article class="work-card work-card--portrait" data-categories="3d" data-project="nyarlathotep">
+          <button class="work-card__button" type="button" aria-label="Nyarlathotep 조형 작업 상세 보기">
+            <span class="work-card__image"><img src="media/nyarlathotep.jpg" alt="어두운 배경에 고리형 실루엣을 두른 Nyarlathotep 조형" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">EXPLORE 3D <b>↗</b></span><span class="work-card__number">02</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">SCULPTURE / NOMAD SCULPT</p><h3>NYARLATHOTEP</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+
+        <article class="work-card work-card--portrait work-card--heavener" data-categories="ai touchdesigner" data-project="heavener">
+          <button class="work-card__button" type="button" aria-label="Heavener AI 및 TouchDesigner 작업 상세 보기">
+            <span class="work-card__image"><img src="media/works/heavener-poster.jpg" alt="Heavener 오디오비주얼 영상 스틸" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">WATCH FILM <b>▷</b></span><span class="work-card__number">03</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">IMAGE / FIREFLY × TD</p><h3>HEAVENER</h3></div><span class="work-card__category">AI · TOUCHDESIGNER</span></div>
+        </article>
+
+        <article class="work-card work-card--wide" data-categories="3d" data-project="unreal">
+          <button class="work-card__button" type="button" aria-label="Unreal Engine 5 시퀀스 작업 상세 보기">
+            <span class="work-card__image"><img src="media/unreal-sequence.jpg" alt="네온이 비치는 사이버펑크 거리와 소형 차량의 시네마틱 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">VIEW STUDY <b>↗</b></span><span class="work-card__number">04</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">CINEMATIC / MAYA → UE5</p><h3>SEQUENCE STUDY</h3></div><span class="work-card__category">3D · UNREAL ENGINE</span></div>
+        </article>
+
+        <article class="work-card" data-categories="3d" data-project="station">
+          <button class="work-card__button" type="button" aria-label="Shinjuku 환경 스터디 상세 보기">
+            <span class="work-card__image"><img src="media/station-study.jpg" alt="초록빛 조명이 드리운 신주쿠 역 플랫폼 환경 이미지" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">VIEW STUDY <b>↗</b></span><span class="work-card__number">05</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">ENVIRONMENT / STUDY</p><h3>SHINJUKU, AFTER HOURS</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+
+        <article class="work-card" data-categories="3d" data-project="lantern">
+          <button class="work-card__button" type="button" aria-label="Industrial lantern 오브젝트 스터디 상세 보기">
+            <span class="work-card__image"><img src="media/lantern-study.jpg" alt="검은 바탕에 놓인 금속 프레임과 따뜻한 전구의 산업용 랜턴 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">EXPLORE 3D <b>↗</b></span><span class="work-card__number">06</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">OBJECT / MATERIAL STUDY</p><h3>FIELD LAMP</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+        <article class="work-card work-card--wide" data-categories="touchdesigner 3d" data-project="ritual">
+          <button class="work-card__button" type="button" aria-label="Ritual 영상 재생 및 작업 상세 보기">
+            <span class="work-card__image"><img src="media/works/ritual-poster.jpg" alt="Ritual 영상 속 빛으로 이루어진 건축 장면" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">WATCH FILM <b>▷</b></span><span class="work-card__number">07</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">AUDIOVISUAL / FILM</p><h3>RITUAL</h3></div><span class="work-card__category">01:50 · VIDEO</span></div>
+        </article>
+        <article class="work-card" data-categories="motion" data-project="mo">
+          <button class="work-card__button" type="button" aria-label="mo 영상 보기">
+            <span class="work-card__image"><img src="media/works/mo-poster.jpg" alt="mo 영상 스틸" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">WATCH FILM <b>▷</b></span><span class="work-card__number">08</span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MOTION / VIDEO STUDY</p><h3>mo</h3></div><span class="work-card__category">03:02 · SILENT</span></div>
+        </article>
+        <article class="work-card" data-categories="3d" data-project="foodtruck">
+          <button class="work-card__button" type="button" aria-label="Neo Tokyo Food Truck 3D 작업 보기">
+            <span class="work-card__image"><img src="media/works/food-truck-poster.jpg" alt="수족관과 문어 요리사, 붉은 등불이 있는 푸드트럭 3D 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">VIEW 360° <b>▷</b></span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MAYA / VEHICLE & ENVIRONMENT</p><h3>NEO TOKYO FOOD TRUCK</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+        <article class="work-card" data-categories="3d" data-project="classroom">
+          <button class="work-card__button" type="button" aria-label="Classroom 3D 조명 작업 보기">
+            <span class="work-card__image"><img src="media/works/classroom-blue.jpg" alt="책상과 마네키네코, 붉은 등불이 있는 교실의 푸른빛 3D 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">VIEW STUDY <b>↗</b></span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MAYA / LIGHTING STUDY</p><h3>CLASSROOM</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+        <article class="work-card" data-categories="3d" data-project="keychain">
+          <button class="work-card__button" type="button" aria-label="Keychain 3D 모델과 렌더 보기">
+            <span class="work-card__image"><img src="media/works/keychain.jpg" alt="어두운 배경에서 푸른빛을 받는 폴더폰과 키링 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">EXPLORE 3D <b>↗</b></span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MAYA / PROP DESIGN</p><h3>KEYCHAIN</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+        <article class="work-card" data-categories="3d" data-project="game-controller">
+          <button class="work-card__button" type="button" aria-label="Game Controller 3D 모델과 렌더 보기">
+            <span class="work-card__image"><img src="media/works/game-controller.jpg" alt="따뜻한 조명 아래 휴대용 게임기와 게임 팩이 놓인 방의 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">EXPLORE 3D <b>↗</b></span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MAYA / ENVIRONMENT &amp; PROPS</p><h3>GAME CONTROLLER</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+        <article class="work-card" data-categories="3d" data-project="jonglu">
+          <button class="work-card__button" type="button" aria-label="Jonglu 종루 3D 모델과 렌더 보기">
+            <span class="work-card__image"><img src="media/works/jonglu.jpg" alt="기와지붕과 계단, 난간을 갖춘 종루의 클레이 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">EXPLORE 3D <b>↗</b></span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MAYA / ARCHITECTURAL MODELING</p><h3>JONGLU</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+        <article class="work-card" data-categories="3d" data-project="guitar">
+          <button class="work-card__button" type="button" aria-label="Guitar 클레이 스터디 3D 모델과 렌더 보기">
+            <span class="work-card__image"><img src="media/works/guitar-clay.jpg" alt="기계 부품을 결합한 기타의 정면 클레이 렌더" loading="lazy"></span>
+            <span class="work-card__overlay"><span class="work-card__open">EXPLORE 3D <b>↗</b></span></span>
+          </button>
+          <div class="work-card__caption"><div><p class="eyebrow">MAYA / HARD-SURFACE MODELING</p><h3>GUITAR · CLAY STUDY</h3></div><span class="work-card__category">3D</span></div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <a class="footer-brand" href="index.html">Kakee<span> / VISUAL RESEARCHER</span></a>
+      <p>장면을 만들고, 그 빛을 움직여 봅니다.</p>
+      <div class="footer-links"><a href="https://www.instagram.com/kakeekukeko/" target="_blank" rel="noreferrer">INSTAGRAM ↗</a><button type="button" data-open-contact>CONTACT ↗</button><span>© 2026</span></div>
+    </footer>
+  </main>
+
+  <dialog class="project-dialog" id="projectDialog" aria-labelledby="projectTitle">
+    <div class="dialog-frame">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="상세 창 닫기">×</button>
+      <p class="eyebrow" id="projectEyebrow"></p>
+      <h2 id="projectTitle"></h2>
+      <div class="project-viewport" id="projectViewport" hidden>
+        <div class="viewport-stage" id="viewportStage"><img id="viewportPoster" alt="" hidden></div>
+        <div class="viewport-controls">
+          <span>드래그해서 회전 · 휠이나 두 손가락으로 확대</span>
+          <div class="viewport-modes" role="group" aria-label="3D 표시 방식">
+            <button type="button" data-viewport-mode="clay" aria-pressed="true" disabled>Clay</button>
+            <button type="button" data-viewport-mode="wire" aria-pressed="false" disabled>Wire</button>
+          </div>
+          <button type="button" id="viewportReset" disabled>시점 초기화</button>
+        </div>
+        <p id="viewportStatus" role="status"></p>
+      </div>
+      <div class="project-media" id="projectMedia"></div>
+      <p class="dialog-copy" id="projectCopy"></p>
+      <div class="dialog-tools" id="projectTools"></div>
+      <div class="project-files" id="projectFiles"></div>
+      <a class="dialog-source" id="projectSource" href="#" target="_blank" rel="noreferrer">원본 게시물 보기 <span>↗</span></a>
+    </div>
+  </dialog>
+
+  <dialog class="contact-dialog" id="contactDialog" aria-labelledby="contactTitle">
+    <div class="dialog-frame contact-frame">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="연락 창 닫기">×</button>
+      <p class="eyebrow">OPEN FOR SELECT PROJECTS</p>
+      <h2 id="contactTitle">함께 만들어 볼까요?</h2>
+      <p class="dialog-copy">프로젝트, 협업, 혹은 흥미로운 아이디어가 있다면 편하게 연락 주세요.</p>
+      <a class="contact-email" href="mailto:sfinert@gmail.com">sfinert@gmail.com <span>↗</span></a>
+      <button class="copy-email" id="copyEmail" type="button">이메일 주소 복사</button>
+      <span class="copy-feedback" id="copyFeedback" aria-live="polite"></span>
+    </div>
+  </dialog>
+
+  <script type="module" src="main.js"></script>
+  <script type="module" src="works-ribbon.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Kakee · So Yeon Kim. 공간과 캐릭터, 움직이는 이미지를 만드는 3D &amp; Moving Image Artist.">
+  <meta name="theme-color" content="#050505">
+  <meta property="og:title" content="Kakee — 3D · Motion · Interactive">
+  <meta property="og:description" content="이미지와 3D 장면을 인터랙티브한 움직임으로 확장합니다.">
+  <meta property="og:image" content="media/works/revenant-poster.jpg">
+  <title>Kakee — 3D · Motion · Interactive</title>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="media/works/revenant-poster.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="hero.css">
+  <link rel="stylesheet" href="about.css">
+  <script src="assets/revenant-hero-data.js" defer></script>
+</head>
+<body class="home-page">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Kakee 홈">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" stroke="currentColor" stroke-width="1.35"/>
+        <path d="M20 6.8 22.4 14.2 29.3 10.7 25.8 17.6 33.2 20 25.8 22.4 29.3 29.3 22.4 25.8 20 33.2 17.6 25.8 10.7 29.3 14.2 22.4 6.8 20 14.2 17.6 10.7 10.7 17.6 14.2Z" fill="currentColor"/>
+      </svg>
+      <span class="brand-copy"><strong>Kakee</strong><small>3D / MOTION / INTERACTIVE</small></span>
+    </a>
+    <nav class="top-nav" aria-label="주요 메뉴">
+      <a href="OPEN-WORKS.html" class="nav-work">Work</a>
+      <a href="#about">About</a>
+      <button class="contact-trigger" type="button" data-open-contact>Let’s talk</button>
+    </nav>
+  </header>
+
+  <main class="site-shell" id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__stage">
+        <div class="hero__frame">
+          <video id="heroVideo" class="hero__video" src="media/works/revenant.mp4" poster="media/works/revenant-poster.jpg" loop playsinline preload="auto" aria-label="Loathe — Revenant 영상"></video>
+          <canvas id="heroField" class="hero__field" aria-hidden="true" hidden></canvas>
+        </div>
+        <div class="hero__footer">
+          <h1 class="hero__credit" id="hero-title">Loathe <span>—</span> Revenant</h1>
+          <span class="hero__scroll" aria-hidden="true">Scroll to enter <span>↓</span></span>
+          <div class="hero__controls">
+            <button class="hero__play" type="button" aria-label="재생" title="재생">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="icon-play" d="m9 5 10 7-10 7Z"/><path class="icon-pause" d="M9 6v12m6-12v12"/></svg>
+            </button>
+            <button class="hero__sound" type="button" aria-label="소리 켜기" title="소리 켜기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h4l5-4v12l-5-4H4z"/><path class="icon-wave" d="M16 9a4 4 0 0 1 0 6m2-8a7 7 0 0 1 0 10"/><path class="icon-muted" d="m16.5 10 4 4m0-4-4 4"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <section class="about-section about-studio" id="about" aria-labelledby="about-title">
+        <div class="about-content">
+          <p class="about-kicker" data-reveal><span class="mask"><span>So Yeon Kim</span></span><span class="mask"><span>3D &amp; Moving Image Artist</span></span></p>
+          <h2 class="about-mark" id="about-title" data-reveal aria-label="Kakee"><span aria-hidden="true" style="--i:0">K</span><span aria-hidden="true" style="--i:1">a</span><span aria-hidden="true" style="--i:2">k</span><span aria-hidden="true" style="--i:3">e</span><span aria-hidden="true" style="--i:4">e</span></h2>
+          <div class="about-grid">
+            <p class="about-tagline" data-reveal><span class="mask"><span>Worlds with</span></span><span class="mask"><span>a pulse.</span></span></p>
+            <div class="about-body">
+              <p class="about-copy" data-reveal><span class="mask"><span>공간과 캐릭터, 움직이는 이미지를 만듭니다.</span></span><span class="mask"><span>회화에서 익힌 색과 구도, 심리학에 대한 관심에서 출발해 낯선 세계가 어떤 감각으로 남는지 탐구합니다.</span></span></p>
+              <p class="about-process" data-reveal><span class="mask"><span>3D로 장면을 만들고, TouchDesigner로 빛과 소리의 리듬을 엮습니다.</span></span><span class="mask"><span>필요할 때는 AI로 이미지와 움직임의 가능성을 실험합니다.</span></span></p>
+              <p class="about-tools" data-reveal><span class="mask"><span>Blender · Maya · Unreal Engine · Nomad Sculpt · TouchDesigner · Firefly</span></span></p>
+              <div class="about-actions" data-reveal>
+                <a class="about-work" href="OPEN-WORKS.html"><span>작업 보기</span><span aria-hidden="true">→</span></a>
+                <button class="about-collab" type="button" data-open-contact><span>함께 작업하기</span><span aria-hidden="true">↗</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <footer class="site-footer">
+      <a class="footer-brand" href="#top">Kakee<span> / VISUAL RESEARCHER</span></a>
+      <p>장면을 만들고, 그 빛을 움직여 봅니다.</p>
+      <div class="footer-links"><a href="https://www.instagram.com/kakeekukeko/" target="_blank" rel="noreferrer">INSTAGRAM ↗</a><button type="button" data-open-contact>CONTACT ↗</button><span>© 2026</span></div>
+    </footer>
+  </main>
+
+  <dialog class="contact-dialog" id="contactDialog" aria-labelledby="contactTitle">
+    <div class="dialog-frame contact-frame">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="연락 창 닫기">×</button>
+      <p class="eyebrow">OPEN FOR SELECT PROJECTS</p>
+      <h2 id="contactTitle">함께 만들어 볼까요?</h2>
+      <p class="dialog-copy">프로젝트, 협업, 혹은 흥미로운 아이디어가 있다면 편하게 연락 주세요.</p>
+      <a class="contact-email" href="mailto:sfinert@gmail.com">sfinert@gmail.com <span>↗</span></a>
+      <button class="copy-email" id="copyEmail" type="button">이메일 주소 복사</button>
+      <span class="copy-feedback" id="copyFeedback" aria-live="polite"></span>
+    </div>
+  </dialog>
+  <script defer src="app-local.js"></script>
+</body>
+</html>
