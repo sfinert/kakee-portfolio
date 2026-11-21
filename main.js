@@ -120,9 +120,9 @@ const projectData = {
     source: 'https://www.instagram.com/kakeekukeko/reel/DP39RLCE8cB/'
   },
   station: {
-    eyebrow: 'ENVIRONMENT / IMAGE STUDY',
+    eyebrow: 'ENVIRONMENT / ENVIRONMENT STUDY',
     title: 'SHINJUKU, AFTER HOURS',
-    copy: '플랫폼에 남은 녹색 빛과 젖은 반사면을 담은 환경 이미지 스터디입니다. 이미지가 가진 조용한 시간감에 집중했습니다.',
+    copy: '플랫폼에 남은 녹색 빛과 젖은 반사면을 담은 환경 스터디입니다. 장면이 가진 조용한 시간감에 집중했습니다.',
     tools: ['ENVIRONMENT', 'LIGHT', 'STUDY'],
     wide: true,
     stills: [
@@ -140,10 +140,12 @@ const projectData = {
     viewport: { src: 'assets/lantern.glb', poster: 'media/lantern-study.jpg' },
     stills: [
       { src: 'media/works/lantern-desert.jpg', label: 'SCENE · RED ROCK', alt: '붉은 바위와 풀 사이에 놓인 랜턴 렌더' },
+      { src: 'media/works/lantern-wire-scene.jpg', label: 'WIREFRAME · SCENE', alt: '바위 지형 위 랜턴 장면의 와이어프레임 렌더' },
       { src: 'media/works/lantern-detail.jpg', label: 'DETAIL', alt: '랜턴 상단의 계기판과 전구를 가까이 본 렌더' },
-      { src: 'media/works/lantern-studio.jpg', label: 'STUDIO', alt: '검은 배경의 랜턴 정면 렌더' },
-      { src: 'media/works/lantern-wire.jpg', label: 'WIREFRAME', alt: '랜턴의 와이어프레임 렌더' },
-      { src: 'media/works/lantern-wire-scene.jpg', label: 'WIREFRAME · SCENE', alt: '바위 지형 위 랜턴 장면의 와이어프레임 렌더' }
+      { src: 'media/works/lantern-front.jpg', label: 'FRONT · ORTHOGRAPHIC', alt: '정면에서 직교 투영으로 본 랜턴 렌더' },
+      { src: 'media/works/lantern-studio.jpg', label: 'STUDIO', alt: '검은 배경의 랜턴 렌더' },
+      { src: 'media/works/lantern-studio-2.jpg', label: 'STUDIO · ALTERNATE', alt: '검은 배경에서 다른 각도로 본 랜턴 렌더' },
+      { src: 'media/works/lantern-wire.jpg', label: 'WIREFRAME', alt: '랜턴의 와이어프레임 렌더' }
     ],
     source: 'https://www.instagram.com/kakeekukeko/p/DF7SB5CzDtb/'
   }

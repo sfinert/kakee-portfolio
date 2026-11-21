@@ -74,6 +74,8 @@ export function closeProjectViewport() {
   state.clay?.dispose();
   state.wire?.dispose();
   state.environment?.dispose();
+  state.floor?.geometry.dispose();
+  state.floor?.material.dispose();
   disposeObject(state.content);
   state.renderer?.dispose();
   state.renderer?.domElement.remove();
@@ -158,20 +160,49 @@ export async function openProjectViewport({ src, poster, title }) {
     const radius = 2.4;
     pivot.scale.setScalar(radius / sphere.radius);
 
+    // A small look-dev studio: filmic tone mapping, a soft key light that casts onto a
+    // shadow-catcher floor, and the soft-box environment for reflections.
     const scene = new THREE.Scene();
     scene.add(pivot);
-    scene.add(new THREE.HemisphereLight(0xe8f8ff, 0x38303c, 1.4));
-    const key = new THREE.DirectionalLight(0xe8f4ff, 1.9);
-    key.position.set(-3, 5, 6);
-    const rim = new THREE.DirectionalLight(0xbdb2f2, 0.85);
-    rim.position.set(5, 2, -4);
-    scene.add(key, rim);
+    content.traverse(object => {
+      if (!object.isMesh) return;
+      object.castShadow = object.receiveShadow = true;
+      // Opacity-mapped sets also hold solid metal, so keep writing depth to avoid sorting holes.
+      for (const material of [object.material].flat()) {
+        if (material?.transparent) material.depthWrite = true;
+      }
+    });
+    scene.add(new THREE.HemisphereLight(0xdfeaff, 0x2a2630, .55));
+    const key = new THREE.DirectionalLight(0xfff3e6, 2.4);
+    key.position.set(-3.5, 6, 4.5);
+    key.castShadow = true;
+    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.bias = -.0004;
+    key.shadow.normalBias = .02;
+    key.shadow.radius = 4;
+    Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .5, far: 20 });
+    const rim = new THREE.DirectionalLight(0xbfd2ff, 1.1);
+    rim.position.set(4.5, 2.5, -4);
+    const fill = new THREE.DirectionalLight(0xe6e9ff, .35);
+    fill.position.set(4, 1, 5);
+    scene.add(key, rim, fill);
+    const floorY = (bounds.min.y - sphere.center.y) * (radius / sphere.radius) - .002;
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: .38 }));
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = floorY;
+    floor.receiveShadow = true;
+    scene.add(floor);
+    state.floor = floor;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     state.renderer = renderer;
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
     renderer.setClearColor(0x11131a);
     renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     state.environment = studioEnvironment(renderer);
     scene.environment = state.environment.texture;
     const canvas = renderer.domElement;
@@ -218,6 +249,7 @@ export async function openProjectViewport({ src, poster, title }) {
       sourceMaterials.forEach((material, mesh) => {
         mesh.material = mode === 'texture' ? material : mode === 'wire' ? state.wire : state.clay;
       });
+      floor.visible = mode !== 'wire';
       for (const button of modeButtons) {
         button.setAttribute('aria-pressed', String(button.dataset.viewportMode === mode));
       }
