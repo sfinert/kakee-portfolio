@@ -13,9 +13,9 @@ const projectData = {
     title: 'CLASSROOM',
     copy: '낡은 교실의 햇빛, 촛불, 붉은 등불을 조합한 라이팅 스터디입니다. 책상 사이에 놓인 마네키네코와 부적이 같은 구도의 두 색조에서 어떻게 보이는지 비교할 수 있습니다.',
     tools: ['MAYA', 'ENVIRONMENT', 'LIGHTING'],
+    wide: true,
     stills: [
-      { src: 'media/works/classroom-blue.jpg', label: 'BLUE LIGHTING', alt: '차가운 푸른빛이 학교 책상 사이로 드는 교실 렌더' },
-      { src: 'media/works/classroom-green.jpg', label: 'GREEN LIGHTING', alt: '녹색 빛과 붉은 등불이 들어오는 교실 렌더' }
+      { src: 'media/works/classroom-blue.jpg', label: 'BLUE LIGHTING', alt: '차가운 푸른빛이 학교 책상 사이로 드는 교실 렌더' }
     ]
   },
   keychain: {
@@ -104,6 +104,7 @@ const projectData = {
     title: 'RITUAL',
     copy: 'Ritual — Kim Soyeon. 전체 영상을 소리와 함께 감상할 수 있습니다.',
     tools: ['AUDIOVISUAL', 'VIDEO'],
+    wide: true,
     videos: [{ src: 'media/works/ritual.mp4', poster: 'media/works/ritual-poster.jpg', label: 'RITUAL · 01:50' }]
   },
   unreal: {
@@ -118,6 +119,12 @@ const projectData = {
     title: 'SHINJUKU, AFTER HOURS',
     copy: '플랫폼에 남은 녹색 빛과 젖은 반사면을 담은 환경 이미지 스터디입니다. 이미지가 가진 조용한 시간감에 집중했습니다.',
     tools: ['ENVIRONMENT', 'LIGHT', 'STUDY'],
+    wide: true,
+    stills: [
+      { src: 'media/works/shinjuku-final.jpg', label: 'FINAL · RETOUCHED', alt: '젖은 바닥과 녹색 빛이 남은 신주쿠 역 플랫폼의 최종 렌더' },
+      { src: 'media/works/shinjuku-render.jpg', label: 'RENDER · BEFORE RETOUCH', alt: '리터치 전 신주쿠 역 플랫폼 렌더' },
+      { src: 'media/works/shinjuku-wire.jpg', label: 'WIREFRAME', alt: '신주쿠 역 플랫폼 장면의 와이어프레임 렌더' }
+    ],
     source: 'https://www.instagram.com/kakeekukeko/p/DFmNmKnTHeH/'
   },
   lantern: {
@@ -172,6 +179,63 @@ document.querySelectorAll('[data-close-dialog]').forEach(button => {
   });
 });
 
+// Full-screen view for render stills: fit to the screen, click for actual pixels, arrows to step.
+let lightbox;
+function openLightbox(list, start) {
+  if (!lightbox) {
+    lightbox = document.createElement('dialog');
+    lightbox.className = 'image-lightbox';
+    lightbox.setAttribute('aria-label', '렌더 이미지 전체 화면');
+    lightbox.innerHTML = `
+      <div class="lightbox-stage"><img alt=""></div>
+      <div class="lightbox-bar">
+        <span class="lightbox-label"></span>
+        <span class="lightbox-hint">이미지 클릭: 원본 크기 · ← → 이동 · Esc 닫기</span>
+        <button type="button" class="lightbox-close" aria-label="전체 화면 닫기">×</button>
+      </div>
+      <button type="button" class="lightbox-step" data-step="-1" aria-label="이전 이미지">←</button>
+      <button type="button" class="lightbox-step" data-step="1" aria-label="다음 이미지">→</button>`;
+    document.body.append(lightbox);
+    const stage = lightbox.querySelector('.lightbox-stage');
+    const image = stage.querySelector('img');
+    image.addEventListener('click', event => {
+      const bounds = image.getBoundingClientRect();
+      const fx = (event.clientX - bounds.left) / bounds.width;
+      const fy = (event.clientY - bounds.top) / bounds.height;
+      const actual = lightbox.classList.toggle('is-actual');
+      if (actual) stage.scrollTo(fx * image.naturalWidth - stage.clientWidth / 2, fy * image.naturalHeight - stage.clientHeight / 2);
+    });
+    lightbox.querySelector('.lightbox-close').addEventListener('click', () => lightbox.close());
+    lightbox.querySelectorAll('.lightbox-step').forEach(button => {
+      button.addEventListener('click', () => lightbox.step(Number(button.dataset.step)));
+    });
+    lightbox.addEventListener('keydown', event => {
+      const step = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+      if (step) {
+        event.preventDefault();
+        lightbox.step(step);
+      }
+    });
+    lightbox.addEventListener('click', event => { if (event.target === lightbox) lightbox.close(); });
+  }
+  const image = lightbox.querySelector('img');
+  let index = start;
+  const show = () => {
+    const still = list[index];
+    lightbox.classList.remove('is-actual');
+    image.src = still.src;
+    image.alt = still.alt;
+    lightbox.querySelector('.lightbox-label').textContent = `${still.label}${list.length > 1 ? `  ${index + 1} / ${list.length}` : ''}`;
+  };
+  lightbox.step = step => {
+    index = (index + step + list.length) % list.length;
+    show();
+  };
+  lightbox.classList.toggle('is-single', list.length < 2);
+  show();
+  if (!lightbox.open) lightbox.showModal();
+}
+
 // The detail sheet grows out of the card that opened it, then its lines rise into place.
 function revealFrom(dialog, origin) {
   if (!origin || matchMedia('(prefers-reduced-motion: reduce)').matches || !dialog.animate) return;
@@ -216,17 +280,24 @@ export function showProject(key, origin) {
     }
     return block;
   }));
-  const stills = (item.stills || []).map(still => {
+  const stills = (item.stills || []).map((still, index, list) => {
     const figure = document.createElement('figure');
     const label = document.createElement('figcaption');
     label.textContent = still.label;
+    const open = document.createElement('button');
+    open.type = 'button';
+    open.className = 'still-open';
+    open.setAttribute('aria-label', `${still.label} 전체 화면으로 보기`);
     const image = document.createElement('img');
     image.src = still.src;
     image.alt = still.alt;
     image.loading = 'lazy';
-    figure.append(label, image);
+    open.append(image, Object.assign(document.createElement('span'), { className: 'still-hint', textContent: '전체 화면 ↗' }));
+    open.addEventListener('click', () => openLightbox(list, index));
+    figure.append(label, open);
     return figure;
   });
+  projectDialog.classList.toggle('is-wide', Boolean(item.wide));
   projectMedia.replaceChildren(...stills, ...(item.videos || []).map(media => {
     const figure = document.createElement('figure');
     const label = document.createElement('figcaption');
