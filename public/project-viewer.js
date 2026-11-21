@@ -74,6 +74,8 @@ export function closeProjectViewport() {
   state.clay?.dispose();
   state.wire?.dispose();
   state.environment?.dispose();
+  state.matcap?.dispose();
+  state.matcapTexture?.dispose();
   state.floor?.geometry.dispose();
   state.floor?.material.dispose();
   disposeObject(state.content);
@@ -110,7 +112,18 @@ async function parseAsset(bytes) {
   });
 }
 
-export async function openProjectViewport({ src, poster, title }) {
+const matcaps = {
+  'nomad-clay': () => import('./assets/nomad-clay-matcap.js')
+};
+
+async function loadMatcap(name) {
+  const { default: url } = await matcaps[name]();
+  const texture = await new THREE.TextureLoader().loadAsync(url);
+  texture.encoding = THREE.sRGBEncoding;
+  return texture;
+}
+
+export async function openProjectViewport({ src, poster, title, matcap }) {
   closeProjectViewport();
   const stage = document.querySelector('#viewportStage');
   const status = document.querySelector('#viewportStatus');
@@ -150,6 +163,12 @@ export async function openProjectViewport({ src, poster, title }) {
     if (!sourceMaterials.size) throw new Error('No meshes in model');
     state.sourceMaterials = sourceMaterials;
     state.clay = new THREE.MeshStandardMaterial({ color: 0xb5bbc8, roughness: 0.86 });
+    if (matcap && matcaps[matcap]) {
+      state.matcapTexture = await loadMatcap(matcap);
+      if (active !== state) return;
+      // Shown exactly as sculpted: matcaps carry their own lighting, so skip tone mapping.
+      state.matcap = new THREE.MeshMatcapMaterial({ matcap: state.matcapTexture, toneMapped: false });
+    }
     state.wire = new THREE.MeshBasicMaterial({ color: 0x9ad7db, wireframe: true });
     const bounds = new THREE.Box3().setFromObject(content);
     const sphere = bounds.getBoundingSphere(new THREE.Sphere());
@@ -247,13 +266,14 @@ export async function openProjectViewport({ src, poster, title }) {
     reset.addEventListener('click', resetView, { signal });
     function setMode(mode) {
       sourceMaterials.forEach((material, mesh) => {
-        mesh.material = mode === 'texture' ? material : mode === 'wire' ? state.wire : state.clay;
+        mesh.material = { texture: material, wire: state.wire, matcap: state.matcap }[mode] || state.clay;
       });
-      floor.visible = mode !== 'wire';
+      floor.visible = mode === 'texture' || mode === 'clay';
       for (const button of modeButtons) {
         button.setAttribute('aria-pressed', String(button.dataset.viewportMode === mode));
       }
       status.textContent = {
+        matcap: 'Nomad Sculpt에서 작업할 때의 클레이 매트캡 그대로 보여줍니다.',
         texture: 'Substance Painter에서 작업한 텍스처를 입힌 모델입니다.',
         wire: '웹용 모델의 삼각형 메시를 표시합니다.',
         clay: '무광 재질로 모델의 형태를 보여줍니다.'
@@ -287,8 +307,11 @@ export async function openProjectViewport({ src, poster, title }) {
     resetView();
     for (const button of modeButtons) {
       if (button.dataset.viewportMode === 'texture') button.hidden = !textured;
+      if (button.dataset.viewportMode === 'matcap') button.hidden = !state.matcap;
     }
-    setMode(textured ? 'texture' : 'clay');
+    const modeList = document.querySelector('.viewport-heading span');
+    if (modeList) modeList.textContent = modeButtons.filter(button => !button.hidden).map(button => button.textContent).join(' · ');
+    setMode(state.matcap ? 'matcap' : textured ? 'texture' : 'clay');
     image.hidden = true;
     reset.disabled = false;
     for (const button of modeButtons) button.disabled = false;

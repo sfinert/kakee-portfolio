@@ -71,7 +71,7 @@ const projectData = {
     title: 'NYARLATHOTEP',
     copy: '불안과 공포, 이유 없이 밀려오는 불안정한 감각을 H. P. Lovecraft의 우주적 공포에서 출발해 조형으로 해석했습니다. Nomad Sculpt와 iPad로 만든 입체 스터디입니다.',
     tools: ['NOMAD SCULPT', 'IPAD', '3D SCULPTURE'],
-    viewport: { src: 'assets/nyarlathotep.glb', poster: 'media/nyarlathotep.jpg' },
+    viewport: { src: 'assets/nyarlathotep.glb', poster: 'media/nyarlathotep.jpg', matcap: 'nomad-clay' },
     stills: [
       { src: 'media/nyarlathotep.jpg', label: 'SCULPTURE', alt: '어두운 배경에 고리형 실루엣을 두른 Nyarlathotep 조형' }
     ],
