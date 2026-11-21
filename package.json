@@ -1,0 +1,15 @@
+{
+  "name": "kakee-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.cjs",
+    "build": "node scripts/build-local.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
