@@ -116,6 +116,10 @@ const matcaps = {
   'nomad-clay': () => import('./assets/nomad-clay-matcap.js')
 };
 
+const matcapLook = {
+  'nomad-clay': { gain: 1.55, contrast: 1.9, saturation: .8, rim: 0xffd9a8, rimPower: 2.8, rimFrom: [.65, -.6], background: 0x050505 }
+};
+
 async function loadMatcap(name) {
   const { default: url } = await matcaps[name]();
   const texture = await new THREE.TextureLoader().loadAsync(url);
@@ -166,8 +170,26 @@ export async function openProjectViewport({ src, poster, title, matcap }) {
     if (matcap && matcaps[matcap]) {
       state.matcapTexture = await loadMatcap(matcap);
       if (active !== state) return;
-      // Shown exactly as sculpted: matcaps carry their own lighting, so skip tone mapping.
+      // The matcap carries its own lighting, so skip tone mapping; a gain, a little contrast and a
+      // warm rim light push it towards the presentation render's bright edges.
       state.matcap = new THREE.MeshMatcapMaterial({ matcap: state.matcapTexture, toneMapped: false });
+      const look = matcapLook[matcap] || {};
+      state.matcap.onBeforeCompile = shader => {
+        shader.uniforms.uGain = { value: look.gain ?? 1 };
+        shader.uniforms.uContrast = { value: look.contrast ?? 1 };
+        shader.uniforms.uRim = { value: new THREE.Color(look.rim ?? 0x000000) };
+        shader.uniforms.uRimPower = { value: look.rimPower ?? 3 };
+        shader.uniforms.uSaturation = { value: look.saturation ?? 1 };
+        shader.uniforms.uRimFrom = { value: new THREE.Vector2(...(look.rimFrom ?? [-.55, .85])).normalize() };
+        shader.fragmentShader = shader.fragmentShader
+          .replace('#include <common>', '#include <common>\nuniform float uGain, uContrast, uRimPower, uSaturation;\nuniform vec3 uRim;\nuniform vec2 uRimFrom;')
+          .replace('vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;', `
+            vec3 outgoingLight = pow(diffuseColor.rgb * matcapColor.rgb, vec3(uContrast)) * uGain;
+            outgoingLight = mix(vec3(dot(outgoingLight, vec3(.299, .587, .114))), outgoingLight, uSaturation);
+            float rim = pow(1. - clamp(abs(dot(normal, viewDir)), 0., 1.), uRimPower);
+            vec2 rimSide = normalize(normal.xy + 1e-4);
+            outgoingLight += uRim * rim * (.15 + .85 * smoothstep(-.2, .9, dot(rimSide, uRimFrom)));`);
+      };
     }
     state.wire = new THREE.MeshBasicMaterial({ color: 0x9ad7db, wireframe: true });
     const bounds = new THREE.Box3().setFromObject(content);
@@ -269,6 +291,7 @@ export async function openProjectViewport({ src, poster, title, matcap }) {
         mesh.material = { texture: material, wire: state.wire, matcap: state.matcap }[mode] || state.clay;
       });
       floor.visible = mode === 'texture' || mode === 'clay';
+      renderer.setClearColor(mode === 'matcap' ? (matcapLook[matcap]?.background ?? 0x11131a) : 0x11131a);
       for (const button of modeButtons) {
         button.setAttribute('aria-pressed', String(button.dataset.viewportMode === mode));
       }
