@@ -27,6 +27,7 @@ const projectData = {
     stills: [
       { src: 'media/works/keychain.jpg', label: 'STUDIO RENDER', alt: '푸른빛을 받는 폴더폰과 키링' },
       { src: 'media/works/keychain-alt.jpg', label: 'ALTERNATE LIGHTING', alt: '무지갯빛 배경에 놓인 폴더폰과 키링' },
+      { src: 'media/works/keychain-motion.jpg', label: 'MOTION BACKDROP', alt: '흐릿한 녹색 배경 앞에 떠 있는 폴더폰과 키링' },
       { src: 'media/works/keychain-wire.jpg', label: 'ORIGINAL WIREFRAME', alt: '폴더폰과 키링의 와이어프레임 렌더' }
     ]
   },
@@ -39,7 +40,8 @@ const projectData = {
     stills: [
       { src: 'media/works/game-controller.jpg', label: 'ORIGINAL RENDER', alt: '따뜻한 조명 아래 게임기와 소품이 놓인 공간' },
       { src: 'media/works/game-controller-vhs.jpg', label: 'VHS COMPOSITE', alt: 'VHS 효과를 적용한 게임기와 방의 렌더' },
-      { src: 'media/works/game-controller-study.jpg', label: 'TEXTURE & CLAY', alt: '게임기 장면의 텍스처와 클레이 비교' }
+      { src: 'media/works/game-controller-study.jpg', label: 'TEXTURE & CLAY', alt: '게임기 장면의 텍스처와 클레이 비교' },
+      { src: 'media/works/game-controller-wire.jpg', label: 'WIREFRAME', alt: '게임기와 소품이 놓인 방의 와이어프레임 렌더' }
     ]
   },
   jonglu: {
@@ -70,6 +72,9 @@ const projectData = {
     copy: '불안과 공포, 이유 없이 밀려오는 불안정한 감각을 H. P. Lovecraft의 우주적 공포에서 출발해 조형으로 해석했습니다. Nomad Sculpt와 iPad로 만든 입체 스터디입니다.',
     tools: ['NOMAD SCULPT', 'IPAD', '3D SCULPTURE'],
     viewport: { src: 'assets/nyarlathotep.glb', poster: 'media/nyarlathotep.jpg' },
+    stills: [
+      { src: 'media/nyarlathotep.jpg', label: 'SCULPTURE', alt: '어두운 배경에 고리형 실루엣을 두른 Nyarlathotep 조형' }
+    ],
     source: 'https://www.instagram.com/kakeekukeko/reel/DGa-LGnzRxI/'
   },
   heavener: {
@@ -133,6 +138,13 @@ const projectData = {
     copy: '차가운 금속 프레임과 따뜻한 발광 소재의 대비를 담은 오브젝트 이미지 스터디입니다.',
     tools: ['OBJECT', 'MATERIAL', 'LIGHT'],
     viewport: { src: 'assets/lantern.glb', poster: 'media/lantern-study.jpg' },
+    stills: [
+      { src: 'media/works/lantern-desert.jpg', label: 'SCENE · RED ROCK', alt: '붉은 바위와 풀 사이에 놓인 랜턴 렌더' },
+      { src: 'media/works/lantern-detail.jpg', label: 'DETAIL', alt: '랜턴 상단의 계기판과 전구를 가까이 본 렌더' },
+      { src: 'media/works/lantern-studio.jpg', label: 'STUDIO', alt: '검은 배경의 랜턴 정면 렌더' },
+      { src: 'media/works/lantern-wire.jpg', label: 'WIREFRAME', alt: '랜턴의 와이어프레임 렌더' },
+      { src: 'media/works/lantern-wire-scene.jpg', label: 'WIREFRAME · SCENE', alt: '바위 지형 위 랜턴 장면의 와이어프레임 렌더' }
+    ],
     source: 'https://www.instagram.com/kakeekukeko/p/DF7SB5CzDtb/'
   }
 };
