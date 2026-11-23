@@ -2,11 +2,16 @@ import { openProjectViewport, closeProjectViewport } from './project-viewer.js';
 
 const projectData = {
   foodtruck: {
-    eyebrow: '3D / MAYA → UNREAL ENGINE 5',
+    eyebrow: 'PROP / MAYA → UNREAL ENGINE 5',
     title: 'NEO TOKYO: FOOD TRUCK',
-    copy: '수족관이 달린 푸드트럭에서 문어 요리사가 음식을 내놓는 장면입니다. 청록빛 간판과 붉은 등불을 배치한 차량을 360도 영상으로 둘러볼 수 있습니다. Maya 에셋을 Unreal Engine 5로 옮겨 시네마틱 시퀀스로도 만들었고, Translucency·Opacity, Height 맵, 머티리얼 인스턴스와 UDIM을 탐색했습니다.',
-    tools: ['MAYA', 'UNREAL ENGINE 5', 'SEQUENCER', 'ENVIRONMENT', '360° RENDER'],
-    videos: [{ src: 'media/works/food-truck.mp4', poster: 'media/works/food-truck-poster.jpg', label: '360° RENDER · 00:11' }],
+    copy: '사이버펑크 컨셉의 푸드트럭입니다. ArtStation Neo Tokyo 챌린지의 컨셉아트를 주 레퍼런스로 삼아, 간단한 핸드 드로잉이던 컨셉을 기계적으로 개연성 있는 구조로 발전시키는 데 집중했습니다. 문어 크리처는 ZBrush로 디테일을 더해 하이-로우 폴리 베이킹 워크플로우로 작업했고, 데칼과 Photoshop·Substance Painter 핸드 페인팅으로 컨셉아트의 느낌을 살렸습니다. 완성한 에셋은 Unreal Engine 5로 옮겨 시네마틱 영상으로도 만들었습니다.',
+    tools: ['MAYA', 'ZBRUSH', 'SUBSTANCE PAINTER', 'V-RAY', 'UNREAL ENGINE 5'],
+    specs: [['ROLE', 'Prop Artist'], ['DURATION', '76.5h · 3 weeks'], ['POLY COUNT', '~220k tris (scene)'], ['TEXTURES', '2K / 4K PBR']],
+    videosFirst: true,
+    videos: [
+      { src: 'media/works/food-truck.mp4', poster: 'media/works/food-truck-poster.jpg', label: '360° RENDER · 00:11' },
+      { src: 'media/works/food-truck-ue5.mp4', poster: 'media/works/food-truck-ue5-poster.jpg', label: 'UNREAL ENGINE 5 · CINEMATIC · 00:11' }
+    ],
     stills: [
       { src: 'media/unreal-sequence.jpg', label: 'UNREAL ENGINE 5 · SEQUENCE', alt: '네온이 비치는 거리와 푸드트럭의 Unreal Engine 5 시네마틱 장면' }
     ],
@@ -15,8 +20,10 @@ const projectData = {
   classroom: {
     eyebrow: '3D / ENVIRONMENT & PROPS',
     title: 'CLASSROOM',
-    copy: '낡은 교실에 햇빛, 촛불, 붉은 등불을 들인 환경 작업입니다. 책상 사이에 마네키네코와 부적 같은 소품을 배치해 장면의 분위기를 만들었습니다.',
-    tools: ['MAYA', 'ENVIRONMENT', 'PROPS', 'LIGHTING'],
+    copy: '여러 컨셉을 섞어, 상상한 무속적인 교실을 새로 창작하는 데 집중한 프로젝트입니다. 반복되는 의자와 책상은 텍스처 모듈로 변주를 주었고, 고양이 동상은 ZBrush로 조각했습니다.',
+    tools: ['MAYA', 'ZBRUSH', 'SUBSTANCE PAINTER', 'PHOTOSHOP', 'V-RAY'],
+    specs: [['ROLE', 'Environment Artist'], ['DURATION', '30h · 1 week'], ['POLY COUNT', '~735k tris (scene)'], ['TEXTURES', '2K / 4K PBR']],
+    highlights: ['여러 컨셉을 섞어 새로운 씬 창작', '텍스처 모듈로 반복 소품에 변주'],
     wide: true,
     stills: [
       { src: 'media/works/classroom-blue.jpg', label: 'BLUE LIGHTING', alt: '차가운 푸른빛이 학교 책상 사이로 드는 교실 렌더' }
@@ -27,10 +34,10 @@ const projectData = {
     title: 'FRUTIGER AERO: KEYCHAIN',
     copy: '폴더폰과 작은 키링을 모델링하고, 어두운 스튜디오와 빛이 번지는 배경에서 각각 렌더했습니다.',
     tools: ['MAYA', 'PROP MODELING', 'LIGHTING'],
-    viewport: { src: 'assets/keychain.glb', poster: 'media/works/keychain.jpg' },
+    viewport: { src: 'assets/keychain.glb', poster: 'media/works/keychain-alt.jpg' },
     stills: [
+      { src: 'media/works/keychain-alt.jpg', label: 'FRUTIGER AERO', alt: '구름 하늘과 비눗방울 배경에 떠 있는 폴더폰과 키링' },
       { src: 'media/works/keychain.jpg', label: 'STUDIO RENDER', alt: '푸른빛을 받는 폴더폰과 키링' },
-      { src: 'media/works/keychain-alt.jpg', label: 'ALTERNATE LIGHTING', alt: '무지갯빛 배경에 놓인 폴더폰과 키링' },
       { src: 'media/works/keychain-motion.jpg', label: 'MOTION BACKDROP', alt: '흐릿한 녹색 배경 앞에 떠 있는 폴더폰과 키링' },
       { src: 'media/works/keychain-wire.jpg', label: 'ORIGINAL WIREFRAME', alt: '폴더폰과 키링의 와이어프레임 렌더' }
     ]
@@ -95,7 +102,7 @@ const projectData = {
   revenant: {
     eyebrow: 'AUDIOVISUAL / BLENDER × TOUCHDESIGNER',
     title: 'REVENANT',
-    copy: 'Loathe의 음악에서 떠오른 장면을 복도와 부유하는 형상으로 만들었습니다. Blender에서 분리 렌더한 라이팅 패스를 TouchDesigner에서 음악과 연결했습니다.',
+    copy: 'Loathe의 신곡을 처음 들었을 때 머릿속에 떠오른 이미지를 그대로 오디오비주얼 작업으로 만들었습니다. 장면은 Blender에서 만들고 라이팅을 패스별로 분리 렌더한 뒤, TouchDesigner로 가져와 음악에 반응하도록 엮었습니다. TouchDesigner를 배우면서 진행해 시행착오가 많았던 작업입니다.',
     tools: ['BLENDER', 'LIGHTING PASSES', 'TOUCHDESIGNER', 'AUDIOVISUAL'],
     videos: [{ src: 'media/works/revenant.mp4', poster: 'media/works/revenant-poster.jpg', label: 'REVENANT · 01:35' }],
     source: 'https://www.instagram.com/kakeekukeko/reel/DdMRA8YJYF5/'
@@ -111,8 +118,10 @@ const projectData = {
   station: {
     eyebrow: 'ENVIRONMENT / ENVIRONMENT STUDY',
     title: 'SHINJUKU, AFTER HOURS',
-    copy: '플랫폼에 남은 녹색 빛과 젖은 반사면을 담은 환경 스터디입니다. 장면이 가진 조용한 시간감에 집중했습니다.',
-    tools: ['ENVIRONMENT', 'LIGHT', 'STUDY'],
+    copy: '일본 지하철역 사진을 레퍼런스로 삼아, 사진과 최대한 비슷한 실사풍 텍스처를 목표로 작업했습니다. 반복되는 요소가 많은 지하철 씬의 특성상 필요한 부분에만 변주를 주고, 모듈 작업으로 씬 크기를 최적화하는 데 집중했습니다.',
+    tools: ['MAYA', 'SUBSTANCE PAINTER', 'PHOTOSHOP', 'V-RAY'],
+    specs: [['ROLE', 'Environment Artist'], ['DURATION', '33h · 1 week'], ['POLY COUNT', '~245k tris (scene)'], ['TEXTURES', '2K / 4K PBR']],
+    highlights: ['모듈 배치로 씬 크기 최소화', '라이팅과 텍스처의 색감 조절로 특유의 분위기 구현'],
     wide: true,
     stills: [
       { src: 'media/works/shinjuku-final.jpg', label: 'FINAL · RETOUCHED', alt: '젖은 바닥과 녹색 빛이 남은 신주쿠 역 플랫폼의 최종 렌더' },
@@ -124,8 +133,10 @@ const projectData = {
   lantern: {
     eyebrow: 'OBJECT / HARD SURFACE PROP',
     title: 'FIELD LAMP',
-    copy: '차가운 금속 프레임과 따뜻한 발광 소재의 대비를 담은 오브젝트 이미지 스터디입니다.',
-    tools: ['OBJECT', 'MATERIAL', 'LIGHT'],
+    copy: 'Barou 사의 랜턴 사진 레퍼런스를 모아 만든 프롭 에셋입니다. UDIM 작업으로 근접 샷에서도 고해상도를 유지하는 것을 목표로 했고, 부품이 많은 작업이라 서브디비전을 줄 물체와 주지 않을 물체를 나눠 아웃라이너를 정리하고 Color ID로 작업했습니다.',
+    tools: ['MAYA', 'SUBSTANCE PAINTER', 'V-RAY'],
+    specs: [['ROLE', 'Prop Artist'], ['DURATION', '37h · 1 week'], ['POLY COUNT', '~186k tris (scene)'], ['TEXTURES', '2K / 4K PBR']],
+    highlights: ['Color ID로 비슷한 텍스처의 부품 관리', 'UDIM 워크플로우로 근접 샷에서도 고해상도 유지'],
     viewport: { src: 'assets/lantern.glb', poster: 'media/lantern-study.jpg' },
     stills: [
       { src: 'media/works/lantern-desert.jpg', label: 'SCENE · RED ROCK', alt: '붉은 바위와 풀 사이에 놓인 랜턴 렌더' },
@@ -153,6 +164,8 @@ const projectTitle = document.querySelector('#projectTitle');
 const projectCopy = document.querySelector('#projectCopy');
 const projectTools = document.querySelector('#projectTools');
 const projectSource = document.querySelector('#projectSource');
+const projectSpecs = document.querySelector('#projectSpecs');
+const projectHighlights = document.querySelector('#projectHighlights');
 const projectMedia = document.querySelector('#projectMedia');
 const projectFiles = document.querySelector('#projectFiles');
 const projectViewport = document.querySelector('#projectViewport');
@@ -400,7 +413,13 @@ export function showProject(key, origin) {
     return figure;
   });
   projectDialog.classList.toggle('is-wide', Boolean(item.wide));
-  const slides = [...stills, ...(item.videos || []).map(media => {
+  projectSpecs.replaceChildren(...(item.specs || []).map(([term, value]) => {
+    const row = document.createElement('div');
+    row.append(Object.assign(document.createElement('dt'), { textContent: term }), Object.assign(document.createElement('dd'), { textContent: value }));
+    return row;
+  }));
+  projectHighlights.replaceChildren(...(item.highlights || []).map(text => Object.assign(document.createElement('li'), { textContent: text })));
+  const films = (item.videos || []).map(media => {
     const figure = document.createElement('figure');
     const label = document.createElement('figcaption');
     label.textContent = media.label;
@@ -417,7 +436,8 @@ export function showProject(key, origin) {
     video.append(fallback);
     figure.append(label, video);
     return figure;
-  })];
+  });
+  const slides = item.videosFirst ? [...films, ...stills] : [...stills, ...films];
   projectMedia.replaceChildren(...(slides.length ? [buildCarousel(slides)] : []));
   projectSource.hidden = !item.source;
   if (item.source) projectSource.href = item.source;
