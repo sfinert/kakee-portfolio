@@ -13,7 +13,11 @@ const projectData = {
       { src: 'media/works/food-truck-ue5.mp4', poster: 'media/works/food-truck-ue5-poster.jpg', label: 'UNREAL ENGINE 5 · CINEMATIC · 00:11' }
     ],
     stills: [
-      { src: 'media/unreal-sequence.jpg', label: 'UNREAL ENGINE 5 · SEQUENCE', alt: '네온이 비치는 거리와 푸드트럭의 Unreal Engine 5 시네마틱 장면' }
+      { src: 'media/works/food-truck-final.jpg', label: 'FINAL RENDER', alt: '수족관과 문어 요리사가 있는 푸드트럭의 최종 렌더' },
+      { src: 'media/works/food-truck-back.jpg', label: 'BACK', alt: '붉은 차체와 뒷문 계단이 보이는 푸드트럭 뒷면 렌더' },
+      { src: 'media/works/food-truck-front.jpg', label: 'FRONT', alt: '해파리 수족관이 있는 푸드트럭 앞면 렌더' },
+      { src: 'media/works/food-truck-clay.jpg', label: 'CLAY RENDER', alt: '푸드트럭의 클레이 렌더' },
+      { src: 'media/works/food-truck-wire.jpg', label: 'WIREFRAME', alt: '푸드트럭의 와이어프레임 렌더' }
     ],
     source: 'https://www.instagram.com/kakeekukeko/reel/DP39RLCE8cB/'
   },
@@ -91,7 +95,7 @@ const projectData = {
   heavener: {
     eyebrow: 'AUDIOVISUAL / FIREFLY × TOUCHDESIGNER',
     title: 'HEAVENER',
-    copy: '원 게시물의 크레딧을 보존하는 Firefly와 TouchDesigner 기반의 오디오비주얼 실험입니다. Project credit: @invent_animate.',
+    copy: '처음으로 생성형 도구를 활용해 본 작업입니다. 좋아하는 밴드의 음악을 들었을 때 떠오른 심상을 이미지와 영상으로 재현하고, TouchDesigner에 연결해 음악에 맞춘 작은 이펙트를 실험했습니다. Project credit: @invent_animate.',
     tools: ['ADOBE FIREFLY', 'TOUCHDESIGNER', 'AUDIOVISUAL', 'CREDIT: @INVENT_ANIMATE'],
     videos: [
       { src: 'media/works/heavener.mp4', poster: 'media/works/heavener-poster.jpg', label: 'HEAVENER · 00:28' },
@@ -108,10 +112,12 @@ const projectData = {
     source: 'https://www.instagram.com/kakeekukeko/reel/DdMRA8YJYF5/'
   },
   ritual: {
-    eyebrow: 'AUDIOVISUAL / FILM',
+    eyebrow: 'AUDIOVISUAL / UNREAL ENGINE · 2025',
     title: 'RITUAL OF DATA',
-    copy: 'Ritual of Data — Kim Soyeon. 전체 영상을 소리와 함께 감상할 수 있습니다.',
-    tools: ['AUDIOVISUAL', 'VIDEO'],
+    copy: '종묘의 구조를 바탕으로, 한국 전통의 오방색(백·흑·적·청·황)을 빛의 순환으로 풀어낸 영상입니다. 언리얼 엔진에서 생성한 수많은 파티클이 동양적인 전자음악에 반응하며 제례의 호흡처럼 이어지고, 오방색이 생겨나고 사라지며 서로 부딪히는 장면으로 음양오행의 순환을 표현했습니다. 전통적인 공간성과 디지털 표현이 만나, 데이터가 하나의 의식처럼 반복되고 갱신되는 순간을 그리려는 시도에서 출발했습니다.',
+    tools: ['UNREAL ENGINE', 'PARTICLES', 'AUDIOVISUAL'],
+    specs: [['YEAR', '2025'], ['FORMAT', 'Single-channel video'], ['DETAILS', 'Color · Stereo sound · Game engine'], ['RUNTIME', '01:50']],
+    highlights: ['ACC 전문인 역량 강화 과정 – 언리얼 엔진 VFX 워크숍 「실시간으로 그리는 물·불·빛·파괴의 시각예술」(2025.7.17–27, 8일)에서 제작'],
     wide: true,
     videos: [{ src: 'media/works/ritual.mp4', poster: 'media/works/ritual-poster.jpg', label: 'RITUAL OF DATA · 01:50' }]
   },
