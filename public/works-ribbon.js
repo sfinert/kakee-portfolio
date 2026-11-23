@@ -15,7 +15,7 @@ function setupReel(reel) {
   const label = reel.querySelector('.reel-label');
   const projectDialog = document.querySelector('#projectDialog');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  const previews = new Set(['revenant', 'ritual', 'heavener', 'mo']);
+  const previews = new Set(['revenant', 'ritual', 'heavener']);
 
   const works = [...document.querySelectorAll('.work-card[data-project]')].map((card, index) => ({
     key: card.dataset.project,

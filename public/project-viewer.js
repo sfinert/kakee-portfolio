@@ -213,7 +213,8 @@ export async function openProjectViewport({ src, poster, title, matcap }) {
         if (material?.transparent) material.depthWrite = true;
       }
     });
-    scene.add(new THREE.HemisphereLight(0xdfeaff, 0x2a2630, .55));
+    const sky = new THREE.HemisphereLight(0xdfeaff, 0x2a2630, .55);
+    scene.add(sky);
     const key = new THREE.DirectionalLight(0xfff3e6, 2.4);
     key.position.set(-3.5, 6, 4.5);
     key.castShadow = true;
@@ -291,7 +292,21 @@ export async function openProjectViewport({ src, poster, title, matcap }) {
         mesh.material = { texture: material, wire: state.wire, matcap: state.matcap }[mode] || state.clay;
       });
       floor.visible = mode === 'texture' || mode === 'clay';
-      renderer.setClearColor(mode === 'matcap' ? (matcapLook[matcap]?.background ?? 0x11131a) : 0x11131a);
+      // Textures get a cinematic rig: little ambient, a low warm raking key that brings out the
+      // normal maps, a strong cool rim and a darker stage, so the surfaces read beyond base colour.
+      const cinematic = mode === 'texture';
+      sky.intensity = cinematic ? .12 : .55;
+      key.intensity = cinematic ? 3.6 : 2.4;
+      key.color.set(cinematic ? 0xffd9b0 : 0xfff3e6);
+      key.position.set(...(cinematic ? [-5, 3.4, 3] : [-3.5, 6, 4.5]));
+      rim.intensity = cinematic ? 2.4 : 1.1;
+      fill.intensity = cinematic ? .12 : .35;
+      floor.material.opacity = cinematic ? .6 : .38;
+      renderer.toneMappingExposure = cinematic ? .92 : 1.05;
+      sourceMaterials.forEach(material => {
+        for (const entry of [material].flat()) if (entry && 'envMapIntensity' in entry) entry.envMapIntensity = .35;
+      });
+      renderer.setClearColor(mode === 'matcap' ? (matcapLook[matcap]?.background ?? 0x11131a) : cinematic ? 0x07080b : 0x11131a);
       for (const button of modeButtons) {
         button.setAttribute('aria-pressed', String(button.dataset.viewportMode === mode));
       }
