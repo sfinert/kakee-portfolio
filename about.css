@@ -75,6 +75,22 @@
   letter-spacing: -.055em;
 }
 
+.about-studio .about-statement {
+  max-width: 30ch;
+  margin: 18px 0 0;
+  color: var(--about-soft);
+  font-size: clamp(.95rem, 1.15vw, 1.15rem);
+  line-height: 1.5;
+  letter-spacing: -.015em;
+}
+.about-studio .about-headline {
+  margin: 0 0 10px;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  font-weight: 500;
+  letter-spacing: -.03em;
+  word-break: keep-all;
+}
+
 .about-studio .about-body { max-width: 600px; }
 
 .about-studio .about-copy,

@@ -2,25 +2,29 @@ import { openProjectViewport, closeProjectViewport } from './project-viewer.js';
 
 const projectData = {
   foodtruck: {
-    eyebrow: '3D / ENVIRONMENT & VEHICLE',
-    title: 'NEO TOKYO FOOD TRUCK',
-    copy: '수족관이 달린 푸드트럭에서 문어 요리사가 음식을 내놓는 장면입니다. 청록빛 간판과 붉은 등불을 배치한 차량을 360도 영상으로 둘러볼 수 있습니다.',
-    tools: ['MAYA', 'ENVIRONMENT', '360° RENDER'],
-    videos: [{ src: 'media/works/food-truck.mp4', poster: 'media/works/food-truck-poster.jpg', label: '360° RENDER · 00:11' }]
+    eyebrow: '3D / MAYA → UNREAL ENGINE 5',
+    title: 'NEO TOKYO: FOOD TRUCK',
+    copy: '수족관이 달린 푸드트럭에서 문어 요리사가 음식을 내놓는 장면입니다. 청록빛 간판과 붉은 등불을 배치한 차량을 360도 영상으로 둘러볼 수 있습니다. Maya 에셋을 Unreal Engine 5로 옮겨 시네마틱 시퀀스로도 만들었고, Translucency·Opacity, Height 맵, 머티리얼 인스턴스와 UDIM을 탐색했습니다.',
+    tools: ['MAYA', 'UNREAL ENGINE 5', 'SEQUENCER', 'ENVIRONMENT', '360° RENDER'],
+    videos: [{ src: 'media/works/food-truck.mp4', poster: 'media/works/food-truck-poster.jpg', label: '360° RENDER · 00:11' }],
+    stills: [
+      { src: 'media/unreal-sequence.jpg', label: 'UNREAL ENGINE 5 · SEQUENCE', alt: '네온이 비치는 거리와 푸드트럭의 Unreal Engine 5 시네마틱 장면' }
+    ],
+    source: 'https://www.instagram.com/kakeekukeko/reel/DP39RLCE8cB/'
   },
   classroom: {
-    eyebrow: '3D / LIGHTING STUDY',
+    eyebrow: '3D / ENVIRONMENT & PROPS',
     title: 'CLASSROOM',
-    copy: '낡은 교실의 햇빛, 촛불, 붉은 등불을 조합한 라이팅 스터디입니다. 책상 사이에 놓인 마네키네코와 부적이 같은 구도의 두 색조에서 어떻게 보이는지 비교할 수 있습니다.',
-    tools: ['MAYA', 'ENVIRONMENT', 'LIGHTING'],
+    copy: '낡은 교실에 햇빛, 촛불, 붉은 등불을 들인 환경 작업입니다. 책상 사이에 마네키네코와 부적 같은 소품을 배치해 장면의 분위기를 만들었습니다.',
+    tools: ['MAYA', 'ENVIRONMENT', 'PROPS', 'LIGHTING'],
     wide: true,
     stills: [
       { src: 'media/works/classroom-blue.jpg', label: 'BLUE LIGHTING', alt: '차가운 푸른빛이 학교 책상 사이로 드는 교실 렌더' }
     ]
   },
   keychain: {
-    eyebrow: '3D / PROP DESIGN',
-    title: 'KEYCHAIN',
+    eyebrow: '3D / HARD SURFACE PROP',
+    title: 'FRUTIGER AERO: KEYCHAIN',
     copy: '폴더폰과 작은 키링을 모델링하고, 어두운 스튜디오와 빛이 번지는 배경에서 각각 렌더했습니다.',
     tools: ['MAYA', 'PROP MODELING', 'LIGHTING'],
     viewport: { src: 'assets/keychain.glb', poster: 'media/works/keychain.jpg' },
@@ -33,7 +37,7 @@ const projectData = {
   },
   'game-controller': {
     eyebrow: '3D / ENVIRONMENT & PROPS',
-    title: 'GAME CONTROLLER',
+    title: 'VHS: GAME BOY',
     copy: '휴대용 게임기와 게임 팩, 스케이트보드, 딱지로 꾸민 공간입니다. 원본 조명 렌더와 VHS 효과를 더한 버전을 함께 볼 수 있습니다.',
     tools: ['MAYA', 'ENVIRONMENT', 'PROP MODELING'],
     viewport: { src: 'assets/game-controller.glb', poster: 'media/works/game-controller.jpg' },
@@ -47,12 +51,12 @@ const projectData = {
   jonglu: {
     eyebrow: '3D / ARCHITECTURAL MODELING',
     title: 'JONGLU',
-    copy: '기와지붕, 계단과 난간, 내부에 걸린 종을 모델링한 종루입니다. 3D 뷰어에서 지붕과 구조를 둘러보고, 고해상도 렌더에서 종의 표면을 가까이 볼 수 있습니다.',
-    tools: ['MAYA', 'ARCHITECTURAL MODELING', 'HIGH-POLY DETAIL'],
-    viewport: { src: 'assets/jonglu.glb', poster: 'media/works/jonglu.jpg' },
+    copy: '기와지붕, 계단과 난간, 내부에 걸린 종을 모델링하고 Substance Painter로 텍스처링한 종루입니다. 3D 뷰어에서 지붕과 구조를 둘러볼 수 있습니다.',
+    tools: ['MAYA', 'SUBSTANCE PAINTER', 'ARCHITECTURAL MODELING'],
+    viewport: { src: 'assets/jonglu.glb', poster: 'media/works/jonglu-textured.jpg' },
     stills: [
-      { src: 'media/works/jonglu.jpg', label: 'CLAY PREVIEW', alt: '기와지붕과 난간이 보이는 종루의 클레이 렌더' },
-      { src: 'media/works/jonglu-bell.jpg', label: 'BELL DETAIL · CLAY PREVIEW', alt: '고해상도 종 모델의 형태와 표면을 보여주는 클레이 렌더' }
+      { src: 'media/works/jonglu-textured.jpg', label: 'TEXTURED RENDER', alt: '기와지붕과 나무 기둥, 난간에 텍스처를 입힌 종루 렌더' },
+      { src: 'media/works/jonglu.jpg', label: 'CLAY PREVIEW', alt: '기와지붕과 난간이 보이는 종루의 클레이 렌더' }
     ]
   },
   guitar: {
@@ -67,7 +71,7 @@ const projectData = {
     ]
   },
   nyarlathotep: {
-    eyebrow: 'SCULPTURE / NOMAD SCULPT · IPAD',
+    eyebrow: 'SCULPTURAL STUDY / NOMAD SCULPT · IPAD',
     title: 'NYARLATHOTEP',
     copy: '불안과 공포, 이유 없이 밀려오는 불안정한 감각을 H. P. Lovecraft의 우주적 공포에서 출발해 조형으로 해석했습니다. Nomad Sculpt와 iPad로 만든 입체 스터디입니다.',
     tools: ['NOMAD SCULPT', 'IPAD', '3D SCULPTURE'],
@@ -78,7 +82,7 @@ const projectData = {
     source: 'https://www.instagram.com/kakeekukeko/reel/DGa-LGnzRxI/'
   },
   heavener: {
-    eyebrow: 'IMAGE / FIREFLY × TOUCHDESIGNER',
+    eyebrow: 'AUDIOVISUAL / FIREFLY × TOUCHDESIGNER',
     title: 'HEAVENER',
     copy: '원 게시물의 크레딧을 보존하는 Firefly와 TouchDesigner 기반의 오디오비주얼 실험입니다. Project credit: @invent_animate.',
     tools: ['ADOBE FIREFLY', 'TOUCHDESIGNER', 'AUDIOVISUAL', 'CREDIT: @INVENT_ANIMATE'],
@@ -97,27 +101,13 @@ const projectData = {
     files: [{ href: 'assets/Rev_1.115.toe', label: 'TouchDesigner 프로젝트 원본 · .toe', note: 'TouchDesigner에서 열 수 있습니다. 외부 참조 미디어와 경로 설정은 별도로 필요할 수 있습니다.' }],
     source: 'https://www.instagram.com/kakeekukeko/reel/DdMRA8YJYF5/'
   },
-  mo: {
-    eyebrow: 'MOTION / VIDEO STUDY',
-    title: 'mo',
-    copy: '움직임과 이미지의 변화를 담은 영상 스터디. 이 영상에는 오디오 트랙이 없습니다.',
-    tools: ['MOTION', 'VIDEO'],
-    videos: [{ src: 'media/works/mo.mp4', poster: 'media/works/mo-poster.jpg', label: 'mo · 03:02 · SILENT' }]
-  },
   ritual: {
     eyebrow: 'AUDIOVISUAL / FILM',
-    title: 'RITUAL',
-    copy: 'Ritual — Kim Soyeon. 전체 영상을 소리와 함께 감상할 수 있습니다.',
+    title: 'RITUAL OF DATA',
+    copy: 'Ritual of Data — Kim Soyeon. 전체 영상을 소리와 함께 감상할 수 있습니다.',
     tools: ['AUDIOVISUAL', 'VIDEO'],
     wide: true,
-    videos: [{ src: 'media/works/ritual.mp4', poster: 'media/works/ritual-poster.jpg', label: 'RITUAL · 01:50' }]
-  },
-  unreal: {
-    eyebrow: 'CINEMATIC / MAYA → UNREAL ENGINE 5',
-    title: 'SEQUENCE STUDY',
-    copy: 'Maya 에셋을 Unreal Engine 5에 임포트하고 시네마틱 시퀀스를 만드는 연습입니다. Translucency·Opacity, Height 맵, V-Ray 머티리얼 인스턴스와 UDIM을 탐색했습니다.',
-    tools: ['MAYA', 'UNREAL ENGINE 5', 'SEQUENCER', 'MATERIAL STUDY'],
-    source: 'https://www.instagram.com/kakeekukeko/reel/DP39RLCE8cB/'
+    videos: [{ src: 'media/works/ritual.mp4', poster: 'media/works/ritual-poster.jpg', label: 'RITUAL OF DATA · 01:50' }]
   },
   station: {
     eyebrow: 'ENVIRONMENT / ENVIRONMENT STUDY',
@@ -133,7 +123,7 @@ const projectData = {
     source: 'https://www.instagram.com/kakeekukeko/p/DFmNmKnTHeH/'
   },
   lantern: {
-    eyebrow: 'OBJECT / MATERIAL STUDY',
+    eyebrow: 'OBJECT / HARD SURFACE PROP',
     title: 'FIELD LAMP',
     copy: '차가운 금속 프레임과 따뜻한 발광 소재의 대비를 담은 오브젝트 이미지 스터디입니다.',
     tools: ['OBJECT', 'MATERIAL', 'LIGHT'],
@@ -150,6 +140,12 @@ const projectData = {
     source: 'https://www.instagram.com/kakeekukeko/p/DF7SB5CzDtb/'
   }
 };
+
+// Works marked data-private stay off the page unless it is opened with ?private.
+// This only hides them from the listing: the files are still in the public repository.
+if (!new URLSearchParams(location.search).has('private')) {
+  document.querySelectorAll('.work-card[data-private]').forEach(card => card.remove());
+}
 
 const projectDialog = document.querySelector('#projectDialog');
 const contactDialog = document.querySelector('#contactDialog');
