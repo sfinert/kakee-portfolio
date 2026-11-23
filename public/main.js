@@ -97,8 +97,7 @@ const projectData = {
     title: 'REVENANT',
     copy: 'Loathe의 음악에서 떠오른 장면을 복도와 부유하는 형상으로 만들었습니다. Blender에서 분리 렌더한 라이팅 패스를 TouchDesigner에서 음악과 연결했습니다.',
     tools: ['BLENDER', 'LIGHTING PASSES', 'TOUCHDESIGNER', 'AUDIOVISUAL'],
-    videos: [{ src: 'media/works/revenant.mp4', poster: 'media/works/revenant-poster.jpg', label: 'REVENANT · 01:50' }],
-    files: [{ href: 'assets/Rev_1.115.toe', label: 'TouchDesigner 프로젝트 원본 · .toe', note: 'TouchDesigner에서 열 수 있습니다. 외부 참조 미디어와 경로 설정은 별도로 필요할 수 있습니다.' }],
+    videos: [{ src: 'media/works/revenant.mp4', poster: 'media/works/revenant-poster.jpg', label: 'REVENANT · 01:35' }],
     source: 'https://www.instagram.com/kakeekukeko/reel/DdMRA8YJYF5/'
   },
   ritual: {
