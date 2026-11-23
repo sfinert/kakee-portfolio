@@ -227,8 +227,9 @@ button { border: 0; }
 .project-media .media-slide { flex: 0 0 100%; display: grid; place-items: center; height: min(66svh, 720px); margin: 0; scroll-snap-align: start; }
 .project-dialog.is-wide .project-media .media-slide { height: min(72svh, 860px); }
 .media-slide figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-.media-slide .still-open { width: 100%; height: 100%; }
-.project-media .media-slide img { width: 100%; height: 100%; object-fit: contain; }
+.project-media .media-slide { position: relative; overflow: hidden; }
+.media-slide .still-open { position: absolute; inset: 0; width: 100%; height: 100%; }
+.project-media .media-slide img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; }
 .project-media .media-slide video { width: 100%; height: 100%; max-height: none; object-fit: contain; }
 .media-bar { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
 .media-label { flex: 1; min-width: 0; color: var(--accent); font: 11px/1.4 var(--mono); letter-spacing: .05em; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
