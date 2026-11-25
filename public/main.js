@@ -70,17 +70,6 @@ const projectData = {
       { src: 'media/works/jonglu.jpg', label: 'CLAY PREVIEW', alt: '기와지붕과 난간이 보이는 종루의 클레이 렌더' }
     ]
   },
-  guitar: {
-    eyebrow: '3D / HARD-SURFACE MODELING',
-    title: 'GUITAR · CLAY STUDY',
-    copy: '기타의 몸체에 기계 부품을 결합한 하드서피스 모델링입니다. 앞뒤 클레이 렌더에서 구조와 연결부를 살펴볼 수 있습니다.',
-    tools: ['MAYA', 'HARD-SURFACE MODELING', 'CLAY STUDY'],
-    viewport: { src: 'assets/guitar.glb', poster: 'media/works/guitar-clay.jpg' },
-    stills: [
-      { src: 'media/works/guitar-clay.jpg', label: 'FRONT · CLAY', alt: '기계식 기타의 앞면 클레이 렌더' },
-      { src: 'media/works/guitar-clay-back.jpg', label: 'BACK · CLAY', alt: '기계식 기타의 뒷면 클레이 렌더' }
-    ]
-  },
   nyarlathotep: {
     eyebrow: 'SCULPTURAL STUDY / NOMAD SCULPT · IPAD',
     title: 'NYARLATHOTEP',

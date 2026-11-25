@@ -8,7 +8,7 @@ function loadLocalAsset(url) {
   if (!localLoads.has(url)) {
     const pending = new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = url.replace(/\.glb$/, '-data.js');
+      script.src = url.replace(/\.glb$/, '-pack.js');
       script.onload = () => {
         script.remove();
         const encoded = window.KAKEE_VIEWPORT_ASSETS?.[url];
@@ -40,11 +40,29 @@ function loadLocalAsset(url) {
   return localLoads.get(url);
 }
 
+// Mirrors scramble() in scripts/build-local.cjs (XOR is its own inverse).
+function unscramble(buffer, url) {
+  const bytes = new Uint8Array(buffer);
+  const name = url.split('/').pop().replace(/\.glb$/, '');
+  let seed = 0x811c9dc5;
+  for (const char of 'kakee:' + name) seed = Math.imul(seed ^ char.charCodeAt(0), 0x01000193) >>> 0;
+  let state = seed || 1;
+  for (let index = 0; index < bytes.length; index++) {
+    if ((index & 3) === 0) {
+      state ^= state << 13; state >>>= 0;
+      state ^= state >>> 17;
+      state ^= state << 5; state >>>= 0;
+    }
+    bytes[index] ^= (state >>> ((index & 3) * 8)) & 255;
+  }
+  return bytes.buffer;
+}
+
 async function loadAsset(url, signal) {
-  if (location.protocol === 'file:') return loadLocalAsset(url);
-  const response = await fetch(url, { signal });
+  if (location.protocol === 'file:') return unscramble(await loadLocalAsset(url), url);
+  const response = await fetch(url.replace(/\.glb$/, '.kmd'), { signal });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return response.arrayBuffer();
+  return unscramble(await response.arrayBuffer(), url);
 }
 
 function disposeObject(content) {

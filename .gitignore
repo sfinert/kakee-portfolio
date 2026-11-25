@@ -2,3 +2,6 @@ source-assets/
 _original-media/
 exports/
 node_modules/
+_backup/
+models/
+_private/

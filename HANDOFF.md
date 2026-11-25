@@ -14,7 +14,7 @@ ZIP을 통째로 풀고 `Kakee-Portfolio/OPEN-PORTFOLIO.html`을 Edge 또는 Chr
 | 회전·확대, Clay·Wire 모드 | `public/project-viewer.js`와 `public/assets/*.glb` |
 | 영상과 이미지 | `public/media/` |
 
-`public/OPEN-PORTFOLIO.html`, `public/OPEN-WORKS.html`, `public/app-local.js`와 GLB에 대응하는 `*-data.js`는 빌드 결과물입니다. 수정은 위의 소스에 적용합니다. 새 3D 작품을 넣을 때는 HTML의 `data-project`와 `main.js`의 작품 키를 일치시키고 GLB를 `public/assets/`에 둡니다.
+`public/OPEN-PORTFOLIO.html`, `public/OPEN-WORKS.html`, `public/app-local.js`, 모델별 `.kmd`와 `*-pack.js`(난독화된 GLB)는 빌드 결과물입니다. 수정은 위의 소스에 적용합니다. 새 3D 작품을 넣을 때는 HTML의 `data-project`와 `main.js`의 작품 키를 일치시키고, 원본 GLB를 git에 올라가지 않는 `models/`에 둔 뒤 `npm run build`를 실행합니다.
 
 Node.js 18 이상이 설치된 Windows x64에서는 ZIP에 포함된 빌드 도구를 사용합니다. 폴더 루트에서 바로 실행할 수 있습니다.
 
